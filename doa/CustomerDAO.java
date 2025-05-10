@@ -16,9 +16,15 @@ public class CustomerDAO {
     private final String findByIdScript = """
             SELECT * FROM customer WHERE id = ?;
             """;
+
     private final String findAllScript = """
             SELECT * FROM customer;
             """;
+
+    private final String findByEmail = """
+            SELECT * FROM customer WHERE email = ?;
+            """;
+
     public void save(Customer customer){
 
         try {
@@ -80,5 +86,21 @@ public class CustomerDAO {
         }
 
         return customerList;
+    }
+
+    public boolean existByMail(String email) {
+
+        Connection connection = DBConnection.getConnection();
+
+        try {
+            PreparedStatement pr = connection.prepareStatement(findByEmail);
+            pr.setString(1,email);
+
+            return pr.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
