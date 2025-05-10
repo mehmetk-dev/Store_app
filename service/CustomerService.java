@@ -24,4 +24,25 @@ public class CustomerService {
         customerDAO.save(customer);
         System.out.println("Kayıt başarılı");
     }
+
+    public void login(String email, String password) {
+
+        boolean ifExist = customerDAO.existByMail(email);
+        if (!ifExist){
+            throw new StoreException(ExceptionMessagesConstants.CUSTOMER_EMAIL_DOES_NOT_EXIST);
+        }
+
+        String hashedPassword = PasswordUtil.hash(password);
+
+        Customer foundCustomer =customerDAO.findByEmail(email);
+
+        if (foundCustomer != null){
+            boolean passwordEquals = foundCustomer.getPassword().equals(hashedPassword);
+            if (passwordEquals){
+                throw new StoreException(ExceptionMessagesConstants.CUSTOMER_PASSWORD_OR_EMAIL_DOES_NOT_MATCH);
+            }else{
+                System.out.println("Kullanıcı başarıyla giriş yaptı.");
+            }
+        }
+    }
 }

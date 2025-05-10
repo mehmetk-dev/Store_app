@@ -33,7 +33,14 @@ public class PatikaStoreMain {
     }
 
     private static void loginCustomer(Scanner scanner) {
-        //todo
+
+        System.out.print("E-Mailinizi giriniz: ");
+        String email = scanner.nextLine();
+        System.out.print("Şifrenizi giriniz: ");
+        String password = scanner.nextLine();
+
+        CustomerService customerService = new CustomerService();
+        customerService.login(email,password);
     }
 
     private static void saveCustomer(Scanner scanner) {

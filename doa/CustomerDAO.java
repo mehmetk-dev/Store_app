@@ -21,7 +21,7 @@ public class CustomerDAO {
             SELECT * FROM customer;
             """;
 
-    private final String findByEmail = """
+    private final String findByEmailScript = """
             SELECT * FROM customer WHERE email = ?;
             """;
 
@@ -96,14 +96,38 @@ public class CustomerDAO {
         Connection connection = DBConnection.getConnection();
 
         try {
-            PreparedStatement pr = connection.prepareStatement(findByEmail);
+            PreparedStatement pr = connection.prepareStatement(findByEmailScript);
             pr.setString(1,email);
-
-            return pr.execute();
+            ResultSet rs = pr.executeQuery();
+            return rs.next();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public Customer findByEmail(String email) {
+
+        Customer customer = null;
+        try{
+            Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(findByEmailScript);
+            pr.setString(1,email);
+            ResultSet rs = pr.executeQuery();
+
+            while(rs.next()){
+                customer = new Customer();
+                customer.setId(rs.getLong("id"));
+                customer.setName(rs.getString("name"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setCreatedDate(new Timestamp(rs.getDate("createddate").getTime()).toLocalDateTime());
+                customer.setUpdatedDate(new Timestamp(rs.getDate("updateddate").getTime()).toLocalDateTime());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
     }
 }
