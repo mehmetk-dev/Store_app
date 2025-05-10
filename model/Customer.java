@@ -12,6 +12,9 @@ public class Customer extends BaseModel{
         this.password = password;
     }
 
+    public Customer() {
+    }
+
     public String getName() {
         return name;
     }
