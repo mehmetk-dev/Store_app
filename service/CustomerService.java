@@ -6,7 +6,7 @@ import util.PasswordUtil;
 
 public class CustomerService {
 
-    private CustomerDAO customerDAO;
+    private CustomerDAO customerDAO  ;
 
     public CustomerService() {
         customerDAO = new CustomerDAO();
