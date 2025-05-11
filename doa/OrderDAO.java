@@ -12,13 +12,10 @@ import java.util.List;
 
 public class OrderDAO implements BaseDAO<Order>{
 
-
-
     public void save(Order order) {
 
-        try(Connection connection = DBConnection.getConnection()) {
-
-            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.ORDER_SAVE);
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.ORDER_SAVE)) {
 
             pr.setLong(1,order.getCustomer().getId());
             pr.setTimestamp(2, Timestamp.valueOf(order.getOrderDate()));

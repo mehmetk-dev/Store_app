@@ -10,14 +10,10 @@ import java.util.List;
 
 public class CustomerDAO implements BaseDAO<Customer>{
 
-
-
     public void save(Customer customer){
 
-        try {
-
-            Connection connection = DBConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SqlScriptConstants.CUSTOMER_SAVE);
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(SqlScriptConstants.CUSTOMER_SAVE)) {
 
             preparedStatement.setString(1,customer.getName());
             preparedStatement.setString(2,customer.getEmail());
@@ -34,9 +30,9 @@ public class CustomerDAO implements BaseDAO<Customer>{
 
         Customer customer = null;
 
-        try{
-            Connection connection = DBConnection.getConnection();
-            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_ID);
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_ID)){
+
             pr.setLong(1,id);
 
             ResultSet rs = pr.executeQuery();
@@ -58,9 +54,9 @@ public class CustomerDAO implements BaseDAO<Customer>{
 
         List<Customer> customerList = new ArrayList<>();
 
-        try{
-            Connection connection = DBConnection.getConnection();
-            Statement st = connection.createStatement();
+        try(Connection connection = DBConnection.getConnection();
+            Statement st = connection.createStatement()){
+
             ResultSet rs = st.executeQuery(SqlScriptConstants.CUSTOMER_FIND_ALL);
             while(rs.next()){
                 Customer customer = new Customer();
@@ -90,10 +86,9 @@ public class CustomerDAO implements BaseDAO<Customer>{
 
     public boolean existByMail(String email) {
 
-        Connection connection = DBConnection.getConnection();
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_EMAIL)){
 
-        try {
-            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_EMAIL);
             pr.setString(1,email);
             ResultSet rs = pr.executeQuery();
             return rs.next();
@@ -107,9 +102,9 @@ public class CustomerDAO implements BaseDAO<Customer>{
     public Customer findByEmail(String email) {
 
         Customer customer = null;
-        try{
-            Connection connection = DBConnection.getConnection();
-            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_EMAIL);
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_EMAIL);){
+
             pr.setString(1,email);
             ResultSet rs = pr.executeQuery();
 

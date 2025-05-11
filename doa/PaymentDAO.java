@@ -15,9 +15,9 @@ public class PaymentDAO implements BaseDAO<Payment>{
 
     public void save(Payment payment) {
 
-        try(Connection connection = DBConnection.getConnection()){
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PAYMENT_SAVE)){
 
-            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PAYMENT_SAVE);
             pr.setBigDecimal(1,payment.getAmount());
             pr.setLong(2,payment.getOrder().getId());
             pr.setString(3,payment.getPaymentType().name());

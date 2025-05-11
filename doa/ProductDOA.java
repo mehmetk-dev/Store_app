@@ -19,9 +19,9 @@ public class ProductDOA implements BaseDAO<Product>{
 
         List<Product> products = new ArrayList<>();
 
-        try{
-            Connection connection = DBConnection.getConnection();
-            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_SEARCH_BY_NAME);
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_SEARCH_BY_NAME)){
+
             pr.setString(1,"%" + name + "%");
             ResultSet rs = pr.executeQuery();
             while(rs.next()){
