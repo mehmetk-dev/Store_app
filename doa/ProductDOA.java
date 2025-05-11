@@ -1,6 +1,7 @@
 package doa;
 
 import connection.DBConnection;
+import doa.Constant.SqlScriptConstants;
 import model.Product;
 
 import java.sql.Connection;
@@ -11,11 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDOA {
-
-    public static final String searchByNameScript = """
-            SELECT * FROM product where name LIKE ?;
-            """;
+public class ProductDOA implements BaseDAO{
 
 
     public List<Product> searchByName(String name){
@@ -24,7 +21,7 @@ public class ProductDOA {
 
         try{
             Connection connection = DBConnection.getConnection();
-            PreparedStatement pr = connection.prepareStatement(searchByNameScript);
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_SEARCH_BY_NAME);
             pr.setString(1,"%" + name + "%");
             ResultSet rs = pr.executeQuery();
             while(rs.next()){
@@ -42,5 +39,30 @@ public class ProductDOA {
         }
 
         return  products;
+    }
+
+    @Override
+    public void save(Object o) {
+
+    }
+
+    @Override
+    public Object findById(long id) {
+        return null;
+    }
+
+    @Override
+    public List findAll() {
+        return List.of();
+    }
+
+    @Override
+    public void update(Object o) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+
     }
 }

@@ -1,36 +1,23 @@
 package doa;
 
 import connection.DBConnection;
+import doa.Constant.SqlScriptConstants;
 import model.Customer;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDAO {
+public class CustomerDAO implements BaseDAO<Customer>{
 
-    private final String saveScript = """
-            INSERT INTO customer(name,email,password) VALUES(?,?,?);
-            """;
 
-    private final String findByIdScript = """
-            SELECT * FROM customer WHERE id = ?;
-            """;
-
-    private final String findAllScript = """
-            SELECT * FROM customer;
-            """;
-
-    private final String findByEmailScript = """
-            SELECT * FROM customer WHERE email = ?;
-            """;
 
     public void save(Customer customer){
 
         try {
 
             Connection connection = DBConnection.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(saveScript);
+            PreparedStatement preparedStatement = connection.prepareStatement(SqlScriptConstants.CUSTOMER_SAVE);
 
             preparedStatement.setString(1,customer.getName());
             preparedStatement.setString(2,customer.getEmail());
@@ -49,7 +36,7 @@ public class CustomerDAO {
 
         try{
             Connection connection = DBConnection.getConnection();
-            PreparedStatement pr = connection.prepareStatement(findByIdScript);
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_ID);
             pr.setLong(1,id);
 
             ResultSet rs = pr.executeQuery();
@@ -67,14 +54,14 @@ public class CustomerDAO {
         return customer;
     }
 
-    private List<Customer> findAll(){
+    public List<Customer> findAll(){
 
         List<Customer> customerList = new ArrayList<>();
 
         try{
             Connection connection = DBConnection.getConnection();
             Statement st = connection.createStatement();
-            ResultSet rs = st.executeQuery(findAllScript);
+            ResultSet rs = st.executeQuery(SqlScriptConstants.CUSTOMER_FIND_ALL);
             while(rs.next()){
                 Customer customer = new Customer();
                 customer.setId(rs.getLong("id"));
@@ -91,12 +78,22 @@ public class CustomerDAO {
         return customerList;
     }
 
+    @Override
+    public void update(Customer customer) {
+
+    }
+
+    @Override
+    public void delete(long id) {
+
+    }
+
     public boolean existByMail(String email) {
 
         Connection connection = DBConnection.getConnection();
 
         try {
-            PreparedStatement pr = connection.prepareStatement(findByEmailScript);
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_EMAIL);
             pr.setString(1,email);
             ResultSet rs = pr.executeQuery();
             return rs.next();
@@ -112,7 +109,7 @@ public class CustomerDAO {
         Customer customer = null;
         try{
             Connection connection = DBConnection.getConnection();
-            PreparedStatement pr = connection.prepareStatement(findByEmailScript);
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CUSTOMER_FIND_BY_EMAIL);
             pr.setString(1,email);
             ResultSet rs = pr.executeQuery();
 
