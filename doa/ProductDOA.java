@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDOA implements BaseDAO{
+public class ProductDOA implements BaseDAO<Product>{
 
 
     public List<Product> searchByName(String name){
@@ -41,23 +41,24 @@ public class ProductDOA implements BaseDAO{
         return  products;
     }
 
+
     @Override
-    public void save(Object o) {
+    public void save(Product product) {
 
     }
 
     @Override
-    public Object findById(long id) {
+    public Product findById(long id) {
         return null;
     }
 
     @Override
-    public List findAll() {
+    public List<Product> findAll() {
         return List.of();
     }
 
     @Override
-    public void update(Object o) {
+    public void update(Product product) {
 
     }
 

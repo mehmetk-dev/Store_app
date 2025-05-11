@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-public class PaymentDAO implements BaseDAO{
+public class PaymentDAO implements BaseDAO<Payment>{
 
 
 
@@ -28,22 +28,17 @@ public class PaymentDAO implements BaseDAO{
     }
 
     @Override
-    public void save(Object o) {
-
-    }
-
-    @Override
-    public Object findById(long id) {
+    public Payment findById(long id) {
         return null;
     }
 
     @Override
-    public List findAll() {
+    public List<Payment> findAll() {
         return List.of();
     }
 
     @Override
-    public void update(Object o) {
+    public void update(Payment payment) {
 
     }
 
@@ -51,4 +46,6 @@ public class PaymentDAO implements BaseDAO{
     public void delete(long id) {
 
     }
+
+
 }
