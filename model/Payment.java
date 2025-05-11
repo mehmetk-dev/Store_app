@@ -9,10 +9,10 @@ public class Payment {
     private PaymentType paymentType;
     private BigDecimal amount;
 
-    public Payment(Order order, PaymentType paymentType, BigDecimal amount) {
+    public Payment(Order order, PaymentType paymentType) {
         this.order = order;
         this.paymentType = paymentType;
-        this.amount = amount;
+        this.amount = order.getTotalAmount();
     }
 
     public Order getOrder() {
