@@ -6,7 +6,7 @@ public class ProductService {
 
     private ProductDOA productDOA;
 
-    public ProductService(  ) {
-        this.productDOA = productDOA;
+    public ProductService() {
+        this.productDOA = new ProductDOA();
     }
 }
