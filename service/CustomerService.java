@@ -14,7 +14,7 @@ public class CustomerService {
         customerDAO = new CustomerDAO();
     }
 
-    public void save(String name, String email, String password){
+    public void save(String name, String email, String password) throws StoreException {
 
         boolean ifExist = customerDAO.existByMail(email);
         if (ifExist){
@@ -25,7 +25,7 @@ public class CustomerService {
         System.out.println("Kayıt başarılı");
     }
 
-    public void login(String email, String password) {
+    public void login(String email, String password) throws StoreException {
 
         boolean ifExist = customerDAO.existByMail(email);
         if (!ifExist){
@@ -38,7 +38,7 @@ public class CustomerService {
 
         if (foundCustomer != null){
             boolean passwordEquals = foundCustomer.getPassword().equals(hashedPassword);
-            if (passwordEquals){
+            if (!passwordEquals){
                 throw new StoreException(ExceptionMessagesConstants.CUSTOMER_PASSWORD_OR_EMAIL_DOES_NOT_MATCH);
             }else{
                 System.out.println("Kullanıcı başarıyla giriş yaptı.");

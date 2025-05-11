@@ -1,3 +1,4 @@
+import exceptions.StoreException;
 import service.CustomerService;
 
 import java.util.Scanner;
@@ -8,7 +9,7 @@ public class PatikaStoreMain {
 
         Scanner scanner = new Scanner(System.in);
 
-        while(true){
+        while(true) {
 
             System.out.println("===Mehmet Store===");
             System.out.println("1-Müşteri Kayıt");
@@ -18,21 +19,27 @@ public class PatikaStoreMain {
 
             String choise = scanner.nextLine();
 
-            switch (choise){
-                case "1":
-                    saveCustomer(scanner);
-                    break;
-                case "2":
-                    loginCustomer(scanner);
-                    break;
+            try {
+                switch (choise) {
+                    case "1":
+                        saveCustomer(scanner);
+                        break;
+                    case "2":
+                        loginCustomer(scanner);
+                        break;
+                    case "0":
+                        System.out.println("Programdan çıkılıyor...");
+                        return;
+                }
+
+            } catch (StoreException e) {
+                System.out.println("\u001B[31m"+ e.getMessage() +"\u001B[0m");
             }
 
         }
-
-
     }
 
-    private static void loginCustomer(Scanner scanner) {
+    private static void loginCustomer(Scanner scanner) throws StoreException {
 
         System.out.print("E-Mailinizi giriniz: ");
         String email = scanner.nextLine();
@@ -43,7 +50,7 @@ public class PatikaStoreMain {
         customerService.login(email,password);
     }
 
-    private static void saveCustomer(Scanner scanner) {
+    private static void saveCustomer(Scanner scanner) throws StoreException {
 
         System.out.print("İsminizi giriniz: ");
         String name = scanner.nextLine();
