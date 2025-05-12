@@ -1,7 +1,7 @@
-package doa;
+package dao;
 
 import connection.DBConnection;
-import doa.Constant.SqlScriptConstants;
+import dao.Constant.SqlScriptConstants;
 import model.User;
 import model.enums.Role;
 

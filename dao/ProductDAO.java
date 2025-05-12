@@ -1,7 +1,7 @@
-package doa;
+package dao;
 
 import connection.DBConnection;
-import doa.Constant.SqlScriptConstants;
+import dao.Constant.SqlScriptConstants;
 import model.Product;
 
 import java.sql.Connection;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDOA implements BaseDAO<Product>{
+public class ProductDAO implements BaseDAO<Product>{
 
 
     public List<Product> searchByName(String name){
@@ -45,6 +45,21 @@ public class ProductDOA implements BaseDAO<Product>{
     @Override
     public void save(Product product) {
 
+        try(Connection connection = DBConnection.getConnection();
+        PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_SAVE)){
+
+            pr.setString(1,product.getName());
+            pr.setBigDecimal(2,product.getPrice());
+            pr.setInt(3,product.getStock());
+            pr.setLong(4,product.getCreatedUser().getId());
+            pr.setLong(5,product.getUpdatedUser().getId());
+            pr.setLong(6,product.getCategory().getId());
+            pr.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

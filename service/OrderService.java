@@ -1,6 +1,6 @@
 package service;
 
-import doa.OrderDAO;
+import dao.OrderDAO;
 import model.Customer;
 import model.Order;
 import model.Product;

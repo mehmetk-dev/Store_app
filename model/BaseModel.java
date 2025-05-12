@@ -7,6 +7,8 @@ public class BaseModel {
     private long id;
     private LocalDateTime createdDate;
     private LocalDateTime updatedDate;
+    private User createdUser;
+    private User updatedUser;
 
     public long getId() {
         return id;
@@ -30,5 +32,21 @@ public class BaseModel {
 
     public void setUpdatedDate(LocalDateTime updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public User getCreatedUser() {
+        return createdUser;
+    }
+
+    public void setCreatedUser(User createdUser) {
+        this.createdUser = createdUser;
+    }
+
+    public User getUpdatedUser() {
+        return updatedUser;
+    }
+
+    public void setUpdatedUser(User updatedUser) {
+        this.updatedUser = updatedUser;
     }
 }

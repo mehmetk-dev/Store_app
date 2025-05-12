@@ -3,6 +3,7 @@ package exceptions;
 public class ExceptionMessagesConstants {
 
 
+
     private ExceptionMessagesConstants() {
     }
 
@@ -17,4 +18,6 @@ public class ExceptionMessagesConstants {
     public static final String USER_EMAIL_DOES_NOT_EXIST = "Girilen kullanıcı adıyla ile ilgili kullanıcı bulunamamıştır.";
 
     public static final String USER_PASSWORD_OR_EMAIL_DOES_NOT_MATCH = "Girilen kullanıcı adı veya şifre yanlış.";
+
+    public static final String USER_IS_NOT_ADMIN = "Giriş yapan kullanıcı ADMIN rolüne sahip değildir.";
 }

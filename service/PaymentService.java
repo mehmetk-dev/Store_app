@@ -1,6 +1,6 @@
 package service;
 
-import doa.PaymentDAO;
+import dao.PaymentDAO;
 import model.Order;
 import model.Payment;
 import model.enums.PaymentType;

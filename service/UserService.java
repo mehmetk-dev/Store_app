@@ -1,18 +1,11 @@
 package service;
 
-import connection.DBConnection;
-import doa.Constant.SqlScriptConstants;
-import doa.UserDAO;
+import dao.UserDAO;
 import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
 import model.User;
 import model.enums.Role;
 import util.PasswordUtil;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class UserService {
 

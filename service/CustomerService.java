@@ -1,6 +1,6 @@
 package service;
 
-import doa.CustomerDAO;
+import dao.CustomerDAO;
 import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
 import model.Customer;

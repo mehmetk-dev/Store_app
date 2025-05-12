@@ -1,7 +1,6 @@
-package doa.Constant;
+package dao.Constant;
 
 public class SqlScriptConstants {
-
 
 
     private SqlScriptConstants() {
@@ -36,6 +35,11 @@ public class SqlScriptConstants {
             SELECT * FROM product where name LIKE ?;
             """;
 
+    public static final String PRODUCT_SAVE = """
+            INSERT INTO product(name,price,stock,updated_by,created_by,category_id)
+            VALUES(?,?,?,?,?,?)
+            """;
+
     public static final String USER_SAVE = """
             INSERT INTO users(username,password,role,active) VALUES(?,?,?,?);
             """;
@@ -44,5 +48,8 @@ public class SqlScriptConstants {
             SELECT * FROM users WHERE username = ?;
             """;
 
-
+    public static final String CATEGORY_SAVE = """
+            INSERT INTO category(name,created_by,updated_by)
+            VALUES(?,?,?);
+            """;
 }
