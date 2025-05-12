@@ -1,4 +1,6 @@
+import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
+import model.User;
 import model.enums.Role;
 import service.CustomerService;
 import service.UserService;
@@ -97,7 +99,80 @@ public class PatikaStore {
         System.out.print("Şifrenizi giriniz: ");
         String password = scanner.nextLine();
 
-        userService.login(userName, password);
+        User loginedUser = userService.login(userName, password);
+
+        if (loginedUser != null && loginedUser.isActive()){
+
+            getLoginUserMenu();
+        }else{
+            throw new StoreException(ExceptionMessagesConstants.USER_IS_NOT_ACTIVE);
+        }
+    }
+
+    private static void getLoginUserMenu() {
+
+        while (true) {
+            System.out.println("=== Kullanıcı Menüsü ===");
+            System.out.println("1 - Kategori Oluştur");
+            System.out.println("2 - Kategori Listele");
+            System.out.println("3 - Kategori Sil");
+            System.out.println("4 - Ürün Oluştur");
+            System.out.println("5 - Ürün Listele");
+            System.out.println("6- Ürün Sil");
+            System.out.println("7 - Sipariş Listele");
+            System.out.println("0-Çıkış");
+            System.out.print("Yapmak istediğiniz işlemi giriniz: ");
+            String choise = scanner.nextLine();
+
+            switch (choise) {
+                case "1":
+                    createCategory();
+                    break;
+                case "2":
+                    listCategory();
+                    break;
+                case "3":
+                    deleteCategory();
+                    break;
+                case "4":
+                    createProduct();
+                    break;
+                case "5":
+                    listProduct();
+                    break;
+                case "6":
+                    deleteProduct();
+                    break;
+                case "7":
+                    listOrder();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("Geçersiz işlem!");
+            }
+        }
+    }
+
+    private static void deleteCategory() {
+    }
+
+    private static void createProduct() {
+    }
+
+    private static void listProduct() {
+    }
+
+    private static void deleteProduct() {
+    }
+
+    private static void listOrder() {
+    }
+
+    private static void listCategory() {
+    }
+
+    private static void createCategory() {
     }
 
     private static void registerUser() throws StoreException {

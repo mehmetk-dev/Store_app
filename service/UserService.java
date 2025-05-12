@@ -26,7 +26,7 @@ public class UserService {
         userDAO.save(new User(username,PasswordUtil.hash(password),role));
     }
 
-    public void login(String username, String password) throws StoreException {
+    public User login(String username, String password) throws StoreException {
 
         User foundUser = userDAO.findByUserName(username);
 
@@ -39,6 +39,8 @@ public class UserService {
             throw new StoreException(ExceptionMessagesConstants.USER_PASSWORD_OR_EMAIL_DOES_NOT_MATCH);
         }
         System.out.println("Giriş başarılı " + foundUser.getUsername());
+         
+        return foundUser;
     }
 }
 
