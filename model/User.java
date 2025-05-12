@@ -24,6 +24,9 @@ public class User {
         this.active = true;
     }
 
+    public User() {
+    }
+
     public long getId() {
         return id;
     }

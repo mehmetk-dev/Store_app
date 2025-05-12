@@ -57,7 +57,7 @@ public class UserDAO implements BaseDAO<User> {
 
             pr.setString(1,username);
             ResultSet rs = pr.executeQuery();
-
+            user = new User();
             while(rs.next()){
 
                 user.setUsername(rs.getString("username"));
@@ -70,5 +70,19 @@ public class UserDAO implements BaseDAO<User> {
         }
 
         return user;
+    }
+    public boolean existByUserName(String userName) {
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.USER_FIND_BY_USERNAME)){
+
+            pr.setString(1,userName);
+            ResultSet rs = pr.executeQuery();
+            return rs.next();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

@@ -1,10 +1,18 @@
 package service;
 
+import connection.DBConnection;
+import doa.Constant.SqlScriptConstants;
 import doa.UserDAO;
 import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
 import model.User;
+import model.enums.Role;
 import util.PasswordUtil;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class UserService {
 
@@ -14,29 +22,30 @@ public class UserService {
         this.userDAO = new UserDAO();
     }
 
-    public void save(String username, String password) throws StoreException {
+    public void save(String username, String password, Role role) throws StoreException {
 
-        User foundUser = userDAO.findByUserName(username);
+        boolean isExist = userDAO.existByUserName(username);
 
-        if (foundUser != null) {
+        if (isExist) {
             throw new StoreException(ExceptionMessagesConstants.USER_EMAIL_ALLREADY_EXIST);
         }
 
-        userDAO.save(new User(username,PasswordUtil.hash(password)));
+        userDAO.save(new User(username,PasswordUtil.hash(password),role));
     }
 
-    public User login(String username, String password) throws StoreException {
+    public void login(String username, String password) throws StoreException {
 
         User foundUser = userDAO.findByUserName(username);
 
         if (foundUser != null){
             String hashedPassword = PasswordUtil.hash(password);
-            if (!foundUser.getPassword().equals(hashedPassword)){
+            if (!hashedPassword.equals(foundUser.getPassword())){
                 throw new StoreException(ExceptionMessagesConstants.USER_PASSWORD_OR_EMAIL_DOES_NOT_MATCH);
             }
         } else{
             throw new StoreException(ExceptionMessagesConstants.USER_PASSWORD_OR_EMAIL_DOES_NOT_MATCH);
         }
-        return foundUser;
+        System.out.println("Giriş başarılı " + foundUser.getUsername());
     }
 }
+
