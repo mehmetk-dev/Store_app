@@ -7,6 +7,8 @@ import model.Category;
 import model.User;
 import model.enums.Role;
 
+import java.util.List;
+
 public class CategoryService {
 
     private CategoryDAO categoryDAO;
@@ -23,5 +25,27 @@ public class CategoryService {
 
         categoryDAO.save(new Category(name,user,user));
         System.out.println("Kategori oluşturuldu.");
+    }
+
+    public List<Category> listAll() {
+
+        return categoryDAO.findAll();
+    }
+
+    public void deleteById(long id) {
+
+        categoryDAO.delete(id);
+        System.out.println("Kategori silindi.");
+    }
+
+    public Category getById(long categoryId) throws StoreException {
+
+        Category foundCategory = categoryDAO.findById(categoryId);
+
+        if (foundCategory == null){
+            throw new StoreException(ExceptionMessagesConstants.CATEGORY_NOT_FOUND);
+        }
+        System.out.println("Kategori bulundu: " + foundCategory);
+        return foundCategory;
     }
 }

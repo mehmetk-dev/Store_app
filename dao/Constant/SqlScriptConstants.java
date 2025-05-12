@@ -3,6 +3,8 @@ package dao.Constant;
 public class SqlScriptConstants {
 
 
+    public static final String CATEGORY_FIND_BY_ID = ;
+
     private SqlScriptConstants() {
 
     }
@@ -51,5 +53,9 @@ public class SqlScriptConstants {
     public static final String CATEGORY_SAVE = """
             INSERT INTO category(name,created_by,updated_by)
             VALUES(?,?,?);
+            """;
+
+    public static final String CATEGORY_DELETE_BY_ID = """
+            DELETE FROM category WHERE id = ?
             """;
 }

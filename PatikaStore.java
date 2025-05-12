@@ -1,16 +1,24 @@
 import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
+import model.Category;
+import model.Product;
 import model.User;
 import model.enums.Role;
+import service.CategoryService;
 import service.CustomerService;
+import service.ProductService;
 import service.UserService;
 
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class PatikaStore {
 
     private static final Scanner scanner = new Scanner(System.in);
-    static UserService userService = new UserService();
+    private static UserService userService = new UserService();
+    private static CategoryService categoryService = new CategoryService();
+    private static ProductService productService = new ProductService();
 
     public static void main(String[] args) {
 
@@ -109,7 +117,7 @@ public class PatikaStore {
         }
     }
 
-    private static void getLoginUserMenu() {
+    private static void getLoginUserMenu() throws StoreException {
 
         while (true) {
             System.out.println("=== Kullanıcı Menüsü ===");
@@ -154,10 +162,23 @@ public class PatikaStore {
         }
     }
 
-    private static void deleteCategory() {
-    }
 
     private static void createProduct() {
+
+        System.out.print("Ürün ismini giriniz: ");
+        String name = scanner.nextLine();
+        System.out.print("Ürün fiyatını giriniz: ");
+        String price = scanner.nextLine();
+        System.out.print("Ürünün stok sayısını giriniz: ");
+        int stock = scanner.nextInt();
+        System.out.print("Kategori ID giriniz: ");
+        int category_id = scanner.nextInt();
+
+        Category category = categoryService.getById(category_id);
+
+        Product product = new Product(name,new BigDecimal(price),stock,category);
+        productService.save(product,);
+
     }
 
     private static void listProduct() {
@@ -169,10 +190,24 @@ public class PatikaStore {
     private static void listOrder() {
     }
 
-    private static void listCategory() {
+    private static void deleteCategory() {
+
+        System.out.print("Kategori ID giriniz: ");
+        String id = scanner.nextLine();
+
+        categoryService.deleteById(Long.parseLong(id));
     }
 
-    private static void createCategory() {
+    private static void listCategory() {
+
+        List<Category> categories = categoryService.listAll();
+
+        categories.forEach(System.out::println);
+
+    }
+
+    private static void createCategory() throws StoreException {
+        throw new StoreException("not iplemented");
     }
 
     private static void registerUser() throws StoreException {
