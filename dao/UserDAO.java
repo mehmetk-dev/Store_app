@@ -60,6 +60,7 @@ public class UserDAO implements BaseDAO<User> {
             user = new User();
             while(rs.next()){
 
+                user.setId(rs.getLong("id"));
                 user.setUsername(rs.getString("username"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(Role.valueOf(rs.getString("role")));

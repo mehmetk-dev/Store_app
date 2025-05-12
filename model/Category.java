@@ -11,6 +11,12 @@ public class Category extends BaseModel{
         this.name = name;
     }
 
+    public Category(Long id,String name) {
+        this.name = name;
+        this.setId(id);
+    }
+
+
     public Category(String name,User createdUser,User updatedUser) {
         this.name = name;
         this.setCreatedUser(createdUser);

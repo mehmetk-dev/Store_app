@@ -11,7 +11,7 @@ import java.util.List;
 
 public class CategoryService {
 
-    private CategoryDAO categoryDAO;
+    private CategoryDAO categoryDAO = new CategoryDAO();
 
     public CategoryService() {
         this.categoryDAO = categoryDAO;

@@ -2,9 +2,6 @@ package dao.Constant;
 
 public class SqlScriptConstants {
 
-
-    public static final String CATEGORY_FIND_BY_ID = ;
-
     private SqlScriptConstants() {
 
     }
@@ -57,5 +54,13 @@ public class SqlScriptConstants {
 
     public static final String CATEGORY_DELETE_BY_ID = """
             DELETE FROM category WHERE id = ?
+            """;
+
+    public static final String CATEGORY_FIND_BY_ID = """
+            SELECT * FROM category WHERE id = ?
+            """;
+
+    public static final String CATEGORY_FIND_ALL = """
+            SELECT * FROM category;
             """;
 }

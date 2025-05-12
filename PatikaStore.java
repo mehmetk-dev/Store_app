@@ -15,6 +15,7 @@ import java.util.Scanner;
 
 public class PatikaStore {
 
+    private static User LOGINED_USER;
     private static final Scanner scanner = new Scanner(System.in);
     private static UserService userService = new UserService();
     private static CategoryService categoryService = new CategoryService();
@@ -110,7 +111,8 @@ public class PatikaStore {
         User loginedUser = userService.login(userName, password);
 
         if (loginedUser != null && loginedUser.isActive()){
-
+            LOGINED_USER = loginedUser;
+            System.out.println("Kullanıcı ID: " + LOGINED_USER.getId());
             getLoginUserMenu();
         }else{
             throw new StoreException(ExceptionMessagesConstants.USER_IS_NOT_ACTIVE);
@@ -163,21 +165,20 @@ public class PatikaStore {
     }
 
 
-    private static void createProduct() {
-
+    private static void createProduct() throws StoreException {
         System.out.print("Ürün ismini giriniz: ");
         String name = scanner.nextLine();
         System.out.print("Ürün fiyatını giriniz: ");
         String price = scanner.nextLine();
         System.out.print("Ürünün stok sayısını giriniz: ");
-        int stock = scanner.nextInt();
+        String stock = scanner.nextLine();
         System.out.print("Kategori ID giriniz: ");
-        int category_id = scanner.nextInt();
+        String category_id = scanner.nextLine();
 
-        Category category = categoryService.getById(category_id);
+        Category category = categoryService.getById(Long.parseLong(category_id));
 
-        Product product = new Product(name,new BigDecimal(price),stock,category);
-        productService.save(product,);
+        Product product = new Product(name,new BigDecimal(price),Integer.parseInt(stock),category);
+        productService.save(product,LOGINED_USER);
 
     }
 
