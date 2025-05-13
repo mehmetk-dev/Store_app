@@ -29,8 +29,7 @@ public class ProductDAO implements BaseDAO<Product>{
                 product.setName(rs.getString("name"));
                 product.setPrice(rs.getBigDecimal("price"));
                 product.setStock(rs.getInt("stock"));
-                product.setCreatedDate(LocalDateTime.parse(rs.getString("createddate")));
-                product.setUpdatedDate(LocalDateTime.parse(rs.getString("updateddate")));
+                product.setCategory(new Category(rs.getLong("category_id"),rs.getString("category_name")));
                 products.add(product);
             }
         } catch (SQLException e) {
@@ -85,7 +84,7 @@ public class ProductDAO implements BaseDAO<Product>{
                         rs.getString("name"),
                         rs.getBigDecimal("price"),
                         rs.getInt("stock"),
-                        new Category(rs.getLong("id"),rs.getString("name"))));
+                        new Category(rs.getLong("category_id"),rs.getString("category_name"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

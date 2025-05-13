@@ -128,8 +128,10 @@ public class PatikaStore {
             System.out.println("3 - Kategori Sil");
             System.out.println("4 - Ürün Oluştur");
             System.out.println("5 - Ürün Listele");
-            System.out.println("6- Ürün Sil");
-            System.out.println("7 - Sipariş Listele");
+            System.out.println("6 - Ürün Sil");
+            System.out.println("7 - Ürün Arama");
+            System.out.println("8 - Ürün Filtreleme(Kategori Bazlı)");
+            System.out.println("9 - Sipariş Listele");
             System.out.println("0-Çıkış");
             System.out.print("Yapmak istediğiniz işlemi giriniz: ");
             String choise = scanner.nextLine();
@@ -154,6 +156,12 @@ public class PatikaStore {
                     deleteProduct();
                     break;
                 case "7":
+                    searchProduct();
+                    break;
+                case "8":
+                    filterProduct();
+                    break;
+                case "9":
                     listOrder();
                     break;
                 case "0":
@@ -162,6 +170,22 @@ public class PatikaStore {
                     System.out.println("Geçersiz işlem!");
             }
         }
+    }
+
+    private static void filterProduct() {
+    }
+
+    private static void searchProduct() {
+
+        System.out.print("Aradığınız ürünün adını giriniz: ");
+        String searchProductName =  scanner.nextLine();
+
+        List<Product> productList = productService.searchProduct(searchProductName);
+
+        System.out.println("\n=== Ürün Listesi(Arama Sonucu) ===");
+
+        productList.forEach(product ->
+                System.out.printf("%s - %s  - %s\n",product.getName(),product.getPrice(),product.getCategory().getName()));
     }
 
 
@@ -187,9 +211,8 @@ public class PatikaStore {
 
         int page = 1;
 
-        do {
-
         List<Product> products = productService.listAll(page);
+        do {
 
 
         System.out.println("=== Ürün Listesi (Sayfa " + page + "/" + totalPage + ") ===");

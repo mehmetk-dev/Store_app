@@ -45,4 +45,9 @@ public class ProductService {
 
         return productDAO.findTotalPage();
     }
+
+    public List<Product> searchProduct(String name) {
+
+        return productDAO.searchByName(name);
+    }
 }
