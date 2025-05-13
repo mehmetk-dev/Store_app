@@ -174,6 +174,18 @@ public class PatikaStore {
     }
 
     private static void filterProduct() {
+
+        System.out.print("Aradığınız kategoriyi giriniz: ");
+        String searchCategory =  scanner.nextLine();
+
+        List<Product> productList = productService.filterProductByCategoryName(searchCategory);
+
+        System.out.println("\n=== Ürün Listesi(Filtreleme Sonucu) ===");
+
+        productList.forEach(product ->
+                System.out.printf("%s - %s  - %s\n",product.getName(),product.getPrice(),product.getCategory().getName()));
+
+        System.out.println("=======");
     }
 
     private static void searchProduct() {
@@ -217,7 +229,7 @@ public class PatikaStore {
 
         System.out.println("=== Ürün Listesi (Sayfa " + page + "/" + totalPage + ") ===");
         products.forEach(product ->
-                System.out.printf("Ürün ID: %s\nÜrün: %s\nFiyat: %s\nStok: %s\nKategori: %s\n\n",
+                System.out.printf("Ürün ID: %s - Ürün: %s - Fiyat: %s - Stok: %s -  Kategori: %s\n\n",
                         product.getId(),product.getName(),product.getPrice(),product.getStock(),product.getCategory().getName()));
         System.out.print("Sonraki sayfa sayısı: ");
         String pageStr  = scanner.nextLine();

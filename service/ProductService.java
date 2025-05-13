@@ -50,4 +50,8 @@ public class ProductService {
 
         return productDAO.searchByName(name);
     }
+
+    public List<Product> filterProductByCategoryName(String searchCategory) {
+        return productDAO.findAllByCategoryName(searchCategory);
+    }
 }

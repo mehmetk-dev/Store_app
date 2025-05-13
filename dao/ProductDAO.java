@@ -127,4 +127,27 @@ public class ProductDAO implements BaseDAO<Product>{
         }
         return 0;
     }
+
+    public List<Product> findAllByCategoryName(String categoryName) {
+
+        List<Product> productList = new ArrayList<>();
+
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_FIND_BY_CATEGORY_NAME)){
+            pr.setString(1,categoryName);
+            ResultSet rs = pr.executeQuery();
+
+            while (rs.next()){
+
+                productList.add(new Product(rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getBigDecimal("price"),
+                        rs.getInt("stock"),
+                        new Category(rs.getLong("category_id"),rs.getString("category_name"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return productList;
+    }
 }

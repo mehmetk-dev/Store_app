@@ -57,6 +57,18 @@ public class SqlScriptConstants {
 
             """;
 
+    public static final String PRODUCT_FIND_BY_CATEGORY_NAME = """
+            SELECT              p.id as id,
+                                p.name as name,
+                                p.price as price,
+                                p.stock as stock,
+                                c.id as category_id,
+                                c.name as category_name
+             FROM product p
+            join category c on c.id = p.category_id
+            where c.name ilike ?
+            """;
+
     public static final String PRODUCT_DELETE_BY_ID = """
             DELETE FROM product WHERE id = ?;
             """;
