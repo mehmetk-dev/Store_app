@@ -2,6 +2,9 @@ package dao.Constant;
 
 public class SqlScriptConstants {
 
+
+
+
     private SqlScriptConstants() {
 
     }
@@ -30,9 +33,25 @@ public class SqlScriptConstants {
             INSERT INTO payment(amount,order_id,payment_method) VALUES(?,?,?);
             """;
 
+    public static final String PRODUCT_FIND_ALL = """
+            SELECT p.id as id,
+            p.name as name,
+            p.price as price,
+            p.stock as stock,
+            c.id as category_id,
+            c.name as category_name
+            from product p, category c 
+            where p.category_id = c.id;
+            """;
+
     public static final String PRODUCT_SEARCH_BY_NAME = """
             SELECT * FROM product where name LIKE ?;
             """;
+
+    public static final String PRODUCT_DELETE_BY_ID = """
+            DELETE FROM product WHERE id = ?;
+            """;
+
 
     public static final String PRODUCT_SAVE = """
             INSERT INTO product(name,price,stock,updated_by,created_by,category_id)

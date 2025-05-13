@@ -183,9 +183,19 @@ public class PatikaStore {
     }
 
     private static void listProduct() {
+
+        List<Product> products = productService.listAll();
+        System.out.println("=== Ürün Listesi ===");
+        products.forEach(product ->
+                System.out.printf("Ürün ID: %s\nÜrün: %s\nFiyat: %s\nStok: %s\nKategori: %s\n\n",
+                        product.getId(),product.getName(),product.getPrice(),product.getStock(),product.getCategory().getName()));
     }
 
     private static void deleteProduct() {
+
+        System.out.print("Silmek istediğiniz ürün ID giriniz: ");
+        String id = scanner.nextLine();
+        productService.deleteByID(Long.parseLong(id));
     }
 
     private static void listOrder() {
@@ -193,7 +203,7 @@ public class PatikaStore {
 
     private static void deleteCategory() {
 
-        System.out.print("Kategori ID giriniz: ");
+        System.out.print("Silmek istediğiniz kategori ID giriniz: ");
         String id = scanner.nextLine();
 
         categoryService.deleteById(Long.parseLong(id));

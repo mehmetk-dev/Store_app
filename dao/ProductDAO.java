@@ -2,12 +2,10 @@ package dao;
 
 import connection.DBConnection;
 import dao.Constant.SqlScriptConstants;
+import model.Category;
 import model.Product;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +67,26 @@ public class ProductDAO implements BaseDAO<Product>{
 
     @Override
     public List<Product> findAll() {
-        return List.of();
+
+        List<Product> productList = new ArrayList<>();
+
+        try(Connection connection = DBConnection.getConnection();
+            Statement st = connection.createStatement()){
+
+            ResultSet rs = st.executeQuery(SqlScriptConstants.PRODUCT_FIND_ALL);
+
+            while (rs.next()){
+
+                productList.add(new Product(rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getBigDecimal("price"),
+                        rs.getInt("stock"),
+                        new Category(rs.getLong("id"),rs.getString("name"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return productList;
     }
 
     @Override
@@ -80,5 +97,14 @@ public class ProductDAO implements BaseDAO<Product>{
     @Override
     public void delete(long id) {
 
+        try(Connection connection = DBConnection.getConnection();
+        PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_DELETE_BY_ID)){
+
+            pr.setLong(1,id);
+            pr.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
