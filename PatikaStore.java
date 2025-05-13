@@ -1,6 +1,7 @@
 import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
 import model.*;
+import model.enums.PaymentType;
 import model.enums.Role;
 import service.*;
 
@@ -18,6 +19,7 @@ public class PatikaStore {
     private static ProductService productService = new ProductService();
     private static CartService cartService = new CartService();
     private static CartItemService cartItemService = new CartItemService();
+    private static OrderService  orderService = new OrderService();
 
     public static void main(String[] args) {
 
@@ -311,7 +313,8 @@ public class PatikaStore {
             System.out.println("4 - Sepete Ürün Ekle");
             System.out.println("5 - Sepeti Görüntüle");
             System.out.println("6 - Sepet Temizle");
-            System.out.println("7 - Sipariş Listele");
+            System.out.println("7 - Sipariş Oluştur");
+            System.out.println("8 - Sipariş Listele");
             System.out.println("0 - Çıkış");
             System.out.print("Seçim Yapınız: ");
             String choise = scanner.nextLine();
@@ -336,6 +339,9 @@ public class PatikaStore {
                     clearCart();
                     break;
                 case "7":
+                    createOrder();
+                    break;
+                case "8":
                     listOrder();
                     break;
                 case "0":
@@ -345,6 +351,14 @@ public class PatikaStore {
             }
 
         }
+    }
+
+    private static void createOrder() {
+
+        System.out.print("Ödeme yönteminizi giriniz: CREDIT_CARD, DEBIT_CARD, PAYPAL, BANK_TRANSFER");
+        String paymentMethod = scanner.nextLine();
+        orderService.save(LOGINED_CUSTOMER, PaymentType.valueOf(paymentMethod));
+
     }
 
     private static void clearCart() {
