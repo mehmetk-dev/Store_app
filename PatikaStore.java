@@ -353,6 +353,13 @@ public class PatikaStore {
     }
 
     private static void listCart() {
+
+        List<Cart> carts = cartService.getAll(LOGINED_CUSTOMER);
+
+        System.out.println("\n=== Sepetteki Ürün Listesi ===");
+
+        carts.forEach(cart ->
+                System.out.printf("%s - %s₺  - %s\n",cart.getItems().get(0).getProduct().getName(),cart.getTotalAmount(),cart.getQuantity()));
     }
 
     private static void addProductToCard() throws StoreException {

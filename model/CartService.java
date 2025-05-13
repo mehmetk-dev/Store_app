@@ -2,6 +2,8 @@ package model;
 
 import dao.CartDAO;
 
+import java.util.List;
+
 public class CartService {
 
     private CartDAO cartDAO;
@@ -28,5 +30,10 @@ public class CartService {
         cart.getItems().add(new CartItem(product));
 
         System.out.println("Ürün sepetinize eklendi.");
+    }
+
+    public List<Cart> getAll(Customer loginedCustomer) {
+
+        return cartDAO.findAllByCustomerId(loginedCustomer.getId());
     }
 }

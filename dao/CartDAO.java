@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CartDAO {
@@ -60,5 +61,32 @@ public class CartDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Cart> findAllByCustomerId(long customerId) {
+
+        List<Cart> carts = new ArrayList<>();
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CART_FIND_ALL_BY_CUSTOMER_ID)){
+
+            pr.setLong(1,customerId);
+
+            ResultSet rs = pr.executeQuery();
+
+            while(rs.next()){
+                Cart cart = new Cart();
+
+                cart.setItems(List.of(new CartItem(new Product(rs.getString("product_name")))));
+                int quantity = rs.getInt("quantity");
+                cart.setQuantity(quantity);
+                BigDecimal price = rs.getBigDecimal("price");
+                cart.setTotalAmount(new BigDecimal(price.intValue() * quantity));
+                carts.add(cart);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return carts;
     }
 }

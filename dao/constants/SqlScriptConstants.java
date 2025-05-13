@@ -120,4 +120,16 @@ public class SqlScriptConstants {
             VALUES(?,?,?)
             """;
 
+    public static final String CART_FIND_ALL_BY_CUSTOMER_ID = """
+            SELECT
+                  p.name as product_name,
+                  p.price as price,
+                  c.quantity as quantity
+            FROM cart c
+                  JOIN product p ON p.id = c.product_id
+                  WHERE c.customer_id = ?
+                  ORDER BY c.createddate desc;
+            """;
+
+
 }
