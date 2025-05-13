@@ -1,9 +1,6 @@
 import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
-import model.Category;
-import model.Customer;
-import model.Product;
-import model.User;
+import model.*;
 import model.enums.Role;
 import service.CategoryService;
 import service.CustomerService;
@@ -16,11 +13,13 @@ import java.util.Scanner;
 
 public class PatikaStore {
 
+    private static Customer LOGINED_CUSTOMER;
     private static User LOGINED_USER;
     private static final Scanner scanner = new Scanner(System.in);
     private static UserService userService = new UserService();
     private static CategoryService categoryService = new CategoryService();
     private static ProductService productService = new ProductService();
+    private static CartService cartService = new CartService();
 
     public static void main(String[] args) {
 
@@ -304,14 +303,17 @@ public class PatikaStore {
 
         CustomerService customerService = new CustomerService();
         Customer customer = customerService.login(email, password);
+        LOGINED_CUSTOMER = customer;
 
         while(true){
 
             System.out.println("1 - Ürün Listele");
             System.out.println("2 - Ürün Arama");
             System.out.println("3 - Ürün Filtreleme(Kategori Bazlı)");
-            System.out.println("4 - Sipariş Oluştur");
-            System.out.println("5 - Sipariş Listele");
+            System.out.println("4 - Sepete Ürün Ekle");
+            System.out.println("5 - Sepeti Görüntüle");
+            System.out.println("6 - Sepet Temizle");
+            System.out.println("7 - Sipariş Listele");
             System.out.println("0 - Çıkış");
             System.out.print("Seçim Yapınız: ");
             String choise = scanner.nextLine();
@@ -327,10 +329,17 @@ public class PatikaStore {
                     filterProduct();
                     break;
                 case "4":
-                    createOrder();
+                    addProductToCard();
                     break;
                 case "5":
+                    listCart();
+                    break;
+                case "6":
+                    clearCart();
+                    break;
+                case "7":
                     listOrder();
+                    break;
                 case "0":
                     return;
                 default:
@@ -340,8 +349,52 @@ public class PatikaStore {
         }
     }
 
-    private static void createOrder() {
+    private static void clearCart() {
     }
+
+    private static void listCart() {
+    }
+
+    private static void addProductToCard() throws StoreException {
+
+        boolean isContinue = true;
+
+        while (isContinue){
+
+        System.out.print("Ürün adı giriniz: ");
+        String productName = scanner.nextLine();
+
+        Product product = productService.getByName(productName);
+
+        if (product == null){
+            System.out.println("Ürün bulunamadı.");
+        }else{
+
+            System.out.print("Adet giriniz: ");
+            int stock = scanner.nextInt();
+
+            if (product.getStock() < stock){
+                throw new StoreException(ExceptionMessagesConstants.PRODUCT_STOCK_IS_NOT_VALID);
+            }
+
+            Cart cart = cartService.getByCustomerId(LOGINED_CUSTOMER.getId());
+
+            if (cart == null){
+                cart = new Cart();
+            }
+            cart.getItems().add(new CartItem(product));
+            System.out.println("Ürün sepetinize eklendi.");
+
+            System.out.print("Sepete ürün eklemeye devam etmek istiyor musunuz ?(E/H)");
+            String yesNo = scanner.nextLine();
+
+            if (!"E".equalsIgnoreCase(yesNo)){
+                isContinue = false;
+            }
+        }
+        }
+    }
+
 
     private static void registerCustomer() throws StoreException {
 

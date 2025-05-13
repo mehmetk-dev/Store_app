@@ -82,6 +82,10 @@ public class SqlScriptConstants {
             VALUES(?,?,?,?,?,?)
             """;
 
+    public static final String PRODUCT_FIND_BY_NAME = """
+            SELECT * FROM product WHERE name = ?;
+            """;
+
     public static final String USER_SAVE = """
             INSERT INTO users(username,password,role,active) VALUES(?,?,?,?);
             """;
@@ -105,5 +109,9 @@ public class SqlScriptConstants {
 
     public static final String CATEGORY_FIND_ALL = """
             SELECT * FROM category;
+            """;
+
+    public static final String CART_FIND_BY_CUSTOMER_ID = """
+            SELECT * FROM cart WHERE customer_id = ?;
             """;
 }

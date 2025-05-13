@@ -3,7 +3,6 @@ package exceptions;
 public class ExceptionMessagesConstants {
 
 
-    public static final String WRONG_PAGE_NUMBER = "Yanlış sayfa sayısı girdiniz.";
 
     private ExceptionMessagesConstants() {
     }
@@ -25,4 +24,8 @@ public class ExceptionMessagesConstants {
     public static final String USER_IS_NOT_ACTIVE = "Kullanıcı aktif değil ya da bulunamadı!";
 
     public static final String CATEGORY_NOT_FOUND = "Kategori bulunamadı.";
+
+    public static final String WRONG_PAGE_NUMBER = "Yanlış sayfa sayısı girdiniz.";
+
+    public static final String PRODUCT_STOCK_IS_NOT_VALID = "İstenilen ürünün stok sayısı yetersiz.";
 }

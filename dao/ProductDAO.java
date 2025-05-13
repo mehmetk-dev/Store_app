@@ -150,4 +150,27 @@ public class ProductDAO implements BaseDAO<Product>{
         }
         return productList;
     }
+
+    public Product findByName(String productName) {
+
+        Product product = null;
+
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_FIND_BY_NAME)){
+            pr.setString(1,productName);
+            ResultSet rs = pr.executeQuery();
+
+            while (rs.next()){
+
+                product = new Product(rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getBigDecimal("price"),
+                        rs.getInt("stock"));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return product;
+    }
 }
