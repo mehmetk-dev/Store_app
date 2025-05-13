@@ -1,7 +1,8 @@
 package dao;
 
 import connection.DBConnection;
-import dao.Constant.SqlScriptConstants;
+import constants.Constants;
+import dao.constants.SqlScriptConstants;
 import model.Category;
 import model.Product;
 
@@ -66,14 +67,17 @@ public class ProductDAO implements BaseDAO<Product>{
     }
 
     @Override
-    public List<Product> findAll() {
+    public List<Product> findAll(int page) {
 
         List<Product> productList = new ArrayList<>();
 
         try(Connection connection = DBConnection.getConnection();
-            Statement st = connection.createStatement()){
-
-            ResultSet rs = st.executeQuery(SqlScriptConstants.PRODUCT_FIND_ALL);
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_FIND_ALL)){
+            int size =  Constants.PAGE_SIZE;
+            int offset = (page - 1) * size;
+            pr.setInt(1,size);
+            pr.setInt(2,offset);
+            ResultSet rs = pr.executeQuery();
 
             while (rs.next()){
 
@@ -106,5 +110,22 @@ public class ProductDAO implements BaseDAO<Product>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int findTotalPage() {
+
+        try(Connection connection = DBConnection.getConnection();
+           Statement st = connection.createStatement()){
+
+            ResultSet rs = st.executeQuery(SqlScriptConstants.PRODUCT_TOTAL_PAGE_COUNT);
+
+            while (rs.next()) {
+                int totalRows = rs.getInt(1);
+                return (int) Math.ceil((double) totalRows /Constants.PAGE_SIZE);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 }

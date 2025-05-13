@@ -183,12 +183,25 @@ public class PatikaStore {
     }
 
     private static void listProduct() {
+        int totalPage = productService.getTotalPage();
 
-        List<Product> products = productService.listAll();
-        System.out.println("=== Ürün Listesi ===");
+        int page = 1;
+
+        do {
+
+        List<Product> products = productService.listAll(page);
+
+
+        System.out.println("=== Ürün Listesi (Sayfa " + page + "/" + totalPage + ") ===");
         products.forEach(product ->
                 System.out.printf("Ürün ID: %s\nÜrün: %s\nFiyat: %s\nStok: %s\nKategori: %s\n\n",
                         product.getId(),product.getName(),product.getPrice(),product.getStock(),product.getCategory().getName()));
+        System.out.print("Sonraki sayfa sayısı: ");
+        String pageStr  = scanner.nextLine();
+        page = Integer.parseInt(pageStr);
+
+        }while(page <= totalPage);
+
     }
 
     private static void deleteProduct() {

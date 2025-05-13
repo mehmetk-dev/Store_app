@@ -1,7 +1,7 @@
 package dao;
 
 import connection.DBConnection;
-import dao.Constant.SqlScriptConstants;
+import dao.constants.SqlScriptConstants;
 import model.Category;
 
 import java.sql.Connection;
@@ -50,7 +50,7 @@ public class CategoryDAO implements BaseDAO<Category>{
     }
 
     @Override
-    public List<Category> findAll() {
+    public List<Category> findAll(int page) {
 
         List<Category> categoryList =  new ArrayList<>();
         try(Connection connection = DBConnection.getConnection();

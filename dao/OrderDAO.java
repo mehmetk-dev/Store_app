@@ -1,7 +1,7 @@
 package dao;
 
 import connection.DBConnection;
-import dao.Constant.SqlScriptConstants;
+import dao.constants.SqlScriptConstants;
 import model.Order;
 
 import java.sql.Connection;
@@ -34,7 +34,7 @@ public class OrderDAO implements BaseDAO<Order>{
     }
 
     @Override
-    public List<Order> findAll() {
+    public List<Order> findAll(int page) {
         return List.of();
     }
 

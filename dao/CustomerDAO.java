@@ -1,7 +1,7 @@
 package dao;
 
 import connection.DBConnection;
-import dao.Constant.SqlScriptConstants;
+import dao.constants.SqlScriptConstants;
 import model.Customer;
 
 import java.sql.*;
@@ -50,7 +50,7 @@ public class CustomerDAO implements BaseDAO<Customer>{
         return customer;
     }
 
-    public List<Customer> findAll(){
+    public List<Customer> findAll(int page){
 
         List<Customer> customerList = new ArrayList<>();
 

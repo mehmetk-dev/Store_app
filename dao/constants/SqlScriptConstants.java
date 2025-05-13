@@ -1,9 +1,6 @@
-package dao.Constant;
+package dao.constants;
 
 public class SqlScriptConstants {
-
-
-
 
     private SqlScriptConstants() {
 
@@ -34,14 +31,17 @@ public class SqlScriptConstants {
             """;
 
     public static final String PRODUCT_FIND_ALL = """
-            SELECT p.id as id,
-            p.name as name,
-            p.price as price,
-            p.stock as stock,
-            c.id as category_id,
-            c.name as category_name
-            from product p, category c 
-            where p.category_id = c.id;
+            SELECT  p.id as id,
+                    p.name as name,
+                    p.price as price,
+                    p.stock as stock,
+                    c.id as category_id,
+                    c.name as category_name
+            FROM    product p, 
+                    category c 
+            WHERE p.category_id = c.id
+            ORDER BY p.id asc
+            LIMIT ? OFFSET ?;
             """;
 
     public static final String PRODUCT_SEARCH_BY_NAME = """
@@ -52,6 +52,9 @@ public class SqlScriptConstants {
             DELETE FROM product WHERE id = ?;
             """;
 
+    public static final String PRODUCT_TOTAL_PAGE_COUNT = """
+            SELECT COUNT(*) FROM product;
+            """;
 
     public static final String PRODUCT_SAVE = """
             INSERT INTO product(name,price,stock,updated_by,created_by,category_id)

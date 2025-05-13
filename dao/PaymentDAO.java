@@ -1,7 +1,7 @@
 package dao;
 
 import connection.DBConnection;
-import dao.Constant.SqlScriptConstants;
+import dao.constants.SqlScriptConstants;
 import model.Payment;
 
 import java.sql.Connection;
@@ -33,7 +33,7 @@ public class PaymentDAO implements BaseDAO<Payment>{
     }
 
     @Override
-    public List<Payment> findAll() {
+    public List<Payment> findAll(int page) {
         return List.of();
     }
 

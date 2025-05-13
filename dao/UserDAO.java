@@ -1,7 +1,7 @@
 package dao;
 
 import connection.DBConnection;
-import dao.Constant.SqlScriptConstants;
+import dao.constants.SqlScriptConstants;
 import model.User;
 import model.enums.Role;
 
@@ -35,7 +35,7 @@ public class UserDAO implements BaseDAO<User> {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll(int page) {
         return List.of();
     }
 

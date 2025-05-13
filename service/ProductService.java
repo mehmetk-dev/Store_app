@@ -31,13 +31,18 @@ public class ProductService {
         System.out.println("Ürün kaydedildi.");
     }
 
-    public List<Product> listAll(){
-        return productDAO.findAll();
+    public List<Product> listAll(int page){
+        return productDAO.findAll(page);
     }
 
     public void deleteByID(long id) {
 
         productDAO.delete(id);
         System.out.println("Ürün başarıyla silindi.");
+    }
+
+    public int getTotalPage() {
+
+        return productDAO.findTotalPage();
     }
 }
