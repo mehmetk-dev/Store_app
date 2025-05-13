@@ -2,10 +2,7 @@ import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
 import model.*;
 import model.enums.Role;
-import service.CategoryService;
-import service.CustomerService;
-import service.ProductService;
-import service.UserService;
+import service.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -20,6 +17,7 @@ public class PatikaStore {
     private static CategoryService categoryService = new CategoryService();
     private static ProductService productService = new ProductService();
     private static CartService cartService = new CartService();
+    private static CartItemService cartItemService = new CartItemService();
 
     public static void main(String[] args) {
 
@@ -354,12 +352,15 @@ public class PatikaStore {
 
     private static void listCart() {
 
-        List<Cart> carts = cartService.getAll(LOGINED_CUSTOMER);
+        List<CartItem> cartItems = cartItemService.getByCustomer(LOGINED_CUSTOMER);
 
         System.out.println("\n=== Sepetteki Ürün Listesi ===");
 
-        carts.forEach(cart ->
-                System.out.printf("%s - %s₺  - %s\n",cart.getItems().get(0).getProduct().getName(),cart.getTotalAmount(),cart.getQuantity()));
+        cartItems.forEach(item ->
+                System.out.printf("%s - %s  x %s₺\n",item.getProduct().getName(),
+                        item.getQuantity(),
+                        item.getProduct().getPrice()));
+        System.out.println("=======");
     }
 
     private static void addProductToCard() throws StoreException {

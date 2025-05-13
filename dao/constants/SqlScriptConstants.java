@@ -111,13 +111,27 @@ public class SqlScriptConstants {
             SELECT * FROM category;
             """;
 
-    public static final String CART_FIND_BY_CUSTOMER_ID = """
-            SELECT * FROM cart WHERE customer_id = ?;
+    public static final String CART_ITEM_FIND_BY_CUSTOMER_ID = """
+            select  ca.id       as cart_item_id,
+                    ca.quantity as quantity,
+                    p.id        as product_id,
+                    p.name      as product_name,
+                    p.price     as price
+            from    cart_items ca
+            join    cart c on c.id = ca.cart_id
+            join    product p on p.id = ca.product_id
+            where   c.customer_id = ?;
             """;
 
-    public static final String CART_SAVE = """
-            INSERT INTO cart(customer_id,product_id,quantity)
-            VALUES(?,?,?)
+    public static final String CART_FIND_BY_CUSTOMER_ID = """
+            select *
+            from cart
+            where customer_id = ?;
+            """;
+
+    public static final String CART_ITEM_SAVE = """
+            INSERT INTO cart_items  (cart_id,product_id,quantity)
+            VALUES(?,?,?);
             """;
 
     public static final String CART_FIND_ALL_BY_CUSTOMER_ID = """
