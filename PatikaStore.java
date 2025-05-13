@@ -1,6 +1,7 @@
 import exceptions.ExceptionMessagesConstants;
 import exceptions.StoreException;
 import model.Category;
+import model.Customer;
 import model.Product;
 import model.User;
 import model.enums.Role;
@@ -206,14 +207,13 @@ public class PatikaStore {
 
     }
 
-    private static void listProduct() {
+    private static void listProduct() throws StoreException {
         int totalPage = productService.getTotalPage();
 
         int page = 1;
 
-        List<Product> products = productService.listAll(page);
         do {
-
+        List<Product> products = productService.listAll(page);
 
         System.out.println("=== Ürün Listesi (Sayfa " + page + "/" + totalPage + ") ===");
         products.forEach(product ->
@@ -222,6 +222,9 @@ public class PatikaStore {
         System.out.print("Sonraki sayfa sayısı: ");
         String pageStr  = scanner.nextLine();
         page = Integer.parseInt(pageStr);
+        if (page <= 0){
+            throw new StoreException(ExceptionMessagesConstants.WRONG_PAGE_NUMBER);
+        }
 
         }while(page <= totalPage);
 
@@ -288,7 +291,44 @@ public class PatikaStore {
         String password = scanner.nextLine();
 
         CustomerService customerService = new CustomerService();
-        customerService.login(email, password);
+        Customer customer = customerService.login(email, password);
+
+        while(true){
+
+            System.out.println("1 - Ürün Listele");
+            System.out.println("2 - Ürün Arama");
+            System.out.println("3 - Ürün Filtreleme(Kategori Bazlı)");
+            System.out.println("4 - Sipariş Oluştur");
+            System.out.println("5 - Sipariş Listele");
+            System.out.println("0 - Çıkış");
+            System.out.print("Seçim Yapınız: ");
+            String choise = scanner.nextLine();
+
+            switch (choise){
+                case "1":
+                    listProduct();
+                    break;
+                case "2":
+                    searchProduct();
+                    break;
+                case "3":
+                    filterProduct();
+                    break;
+                case "4":
+                    createOrder();
+                    break;
+                case "5":
+                    listOrder();
+                case "0":
+                    return;
+                default:
+                    System.out.println("Geçersiz işlem...");
+            }
+
+        }
+    }
+
+    private static void createOrder() {
     }
 
     private static void registerCustomer() throws StoreException {

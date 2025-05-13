@@ -3,6 +3,8 @@ package exceptions;
 public class ExceptionMessagesConstants {
 
 
+    public static final String WRONG_PAGE_NUMBER = "Yanlış sayfa sayısı girdiniz.";
+
     private ExceptionMessagesConstants() {
     }
 

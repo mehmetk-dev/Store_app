@@ -25,7 +25,7 @@ public class CustomerService {
         System.out.println("Kayıt başarılı");
     }
 
-    public void login(String email, String password) throws StoreException {
+    public Customer login(String email, String password) throws StoreException {
 
         boolean ifExist = customerDAO.existByMail(email);
         if (!ifExist){
@@ -44,5 +44,6 @@ public class CustomerService {
                 System.out.println("Kullanıcı başarıyla giriş yaptı.");
             }
         }
+        return foundCustomer;
     }
 }
