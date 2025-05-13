@@ -42,4 +42,23 @@ public class CartDAO {
         }
         return cart;
     }
+
+    public void save(Cart cart) {
+
+        try(Connection connection = DBConnection.getConnection();
+        PreparedStatement pr =  connection.prepareStatement(SqlScriptConstants.CART_SAVE)){
+
+            System.out.println("Saving to DB → customerId: " + cart.getCustomer().getId()
+                    + ", productId: " + cart.getItems().get(0).getProduct().getId()
+                    + ", quantity: " + cart.getQuantity());
+
+            pr.setLong(1,cart.getCustomer().getId());
+            pr.setLong(2,cart.getItems().get(0).getProduct().getId());
+            pr.setInt(3,cart.getQuantity());
+            pr.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

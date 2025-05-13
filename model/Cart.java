@@ -10,6 +10,7 @@ public class Cart {
     private Customer customer;
     private List<CartItem> items = new ArrayList<>();
     private BigDecimal totalAmount;
+    private Integer quantity;
 
     public Cart(Customer customer, List<CartItem> items, BigDecimal totalAmount) {
         this.customer = customer;
@@ -17,7 +18,21 @@ public class Cart {
         this.totalAmount = totalAmount;
     }
 
+    public Cart(Long id, Long productId,Integer quantity) {
+        this.setCustomer(new Customer(id));
+        this.setItems(List.of(new CartItem(new Product(productId))));
+        this.quantity = quantity;
+    }
+
     public Cart() {
+    }
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
     public Long getId() {

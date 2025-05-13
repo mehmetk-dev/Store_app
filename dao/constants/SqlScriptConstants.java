@@ -114,4 +114,10 @@ public class SqlScriptConstants {
     public static final String CART_FIND_BY_CUSTOMER_ID = """
             SELECT * FROM cart WHERE customer_id = ?;
             """;
+
+    public static final String CART_SAVE = """
+            INSERT INTO cart(customer_id,product_id,quantity)
+            VALUES(?,?,?)
+            """;
+
 }

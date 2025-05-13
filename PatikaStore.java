@@ -369,21 +369,15 @@ public class PatikaStore {
         if (product == null){
             System.out.println("Ürün bulunamadı.");
         }else{
-
             System.out.print("Adet giriniz: ");
-            int stock = scanner.nextInt();
+            int quantity = scanner.nextInt();
 
-            if (product.getStock() < stock){
+            if (product.getStock() < quantity){
                 throw new StoreException(ExceptionMessagesConstants.PRODUCT_STOCK_IS_NOT_VALID);
             }
 
-            Cart cart = cartService.getByCustomerId(LOGINED_CUSTOMER.getId());
-
-            if (cart == null){
-                cart = new Cart();
-            }
-            cart.getItems().add(new CartItem(product));
-            System.out.println("Ürün sepetinize eklendi.");
+            scanner.nextLine();
+            cartService.addToCard(LOGINED_CUSTOMER,product,quantity);
 
             System.out.print("Sepete ürün eklemeye devam etmek istiyor musunuz ?(E/H)");
             String yesNo = scanner.nextLine();
@@ -394,7 +388,6 @@ public class PatikaStore {
         }
         }
     }
-
 
     private static void registerCustomer() throws StoreException {
 
