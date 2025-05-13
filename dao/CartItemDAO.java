@@ -16,8 +16,18 @@ import java.util.List;
 
 public class CartItemDAO {
 
-    public void clear(Long customerId){
+    public int clear(Long cartId){
 
+        int effectedRow = 0;
+        try(Connection connection = DBConnection.getConnection();
+        PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.CART_ITEM_DELETE)){
+
+            pr.setLong(1,cartId);
+            effectedRow = pr.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  effectedRow;
     }
 
     public List<CartItem> findByCustomerId(Long customerId){

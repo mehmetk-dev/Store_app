@@ -145,5 +145,7 @@ public class SqlScriptConstants {
                   ORDER BY c.createddate desc;
             """;
 
-
+    public static final String CART_ITEM_DELETE = """
+            DELETE FROM cart_items WHERE cart_id = ?;
+            """;
 }

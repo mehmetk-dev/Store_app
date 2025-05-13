@@ -348,6 +348,7 @@ public class PatikaStore {
     }
 
     private static void clearCart() {
+        cartService.clear(LOGINED_CUSTOMER);
     }
 
     private static void listCart() {
