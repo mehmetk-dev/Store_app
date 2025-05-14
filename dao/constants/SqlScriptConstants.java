@@ -161,4 +161,20 @@ public class SqlScriptConstants {
             INSERT INTO order_item(order_id,product_id,quantity,price)
             VALUES(?,?,?,?);
             """;
+
+
+    public static final String ORDER_FIND_BY_CUSTOMER_ID = """
+            SELECT 
+            o.id as order_id,
+            o.total_amount,
+            p.id as product_id,
+            p.name as product_name,
+            oi.quantity,
+            oi.price
+            FROM "order" o
+            JOIN order_item oi ON o.id = oi.order_id
+            JOIN product p ON oi.product_id = p.id
+            WHERE o.customer_id = ?
+            ORDER BY o.order_date DESC;
+            """;
 }

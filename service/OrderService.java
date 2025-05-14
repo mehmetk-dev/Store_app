@@ -81,4 +81,8 @@ public class OrderService {
 
         return order;
     }
+
+    public List<Order> getAllByCustomer(Customer loginedCustomer) {
+        return orderDAO.findAllByCustomerId(loginedCustomer.getId());
+    }
 }

@@ -249,6 +249,24 @@ public class PatikaStore {
     }
 
     private static void listOrder() {
+
+        List<Order> orders = orderService.getAllByCustomer(LOGINED_CUSTOMER);
+        System.out.println("---------Siparişlerim---------");
+        for (Order order : orders){
+
+            System.out.printf("Sipariş #%d - %s\n",
+                    order.getId(),order.getOrderDate());
+
+            for (OrderItem orderItem : order.getOrderItems()){
+
+                System.out.printf(" -> %s - %s - %s\n",
+                        orderItem.getProduct().getName(),
+                        orderItem.getQuantity(),
+                        orderItem.getPrice());
+            }
+        }
+
+        System.out.println("------------------");
     }
 
     private static void deleteCategory() {
