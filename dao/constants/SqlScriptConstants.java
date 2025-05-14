@@ -86,6 +86,14 @@ public class SqlScriptConstants {
             SELECT * FROM product WHERE name = ?;
             """;
 
+    public static final String PRODUCT_FIND_BY_ID = """
+            SELECT * FROM product WHERE id = ?;
+            """;
+
+    public static final String PRODUCT_UPDATE_STOCK = """
+            UPDATE product set stock = ? where id = ?;
+            """;
+
     public static final String USER_SAVE = """
             INSERT INTO users(username,password,role,active) VALUES(?,?,?,?);
             """;

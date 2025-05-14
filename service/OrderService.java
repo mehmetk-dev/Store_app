@@ -39,12 +39,12 @@ public class OrderService {
 
         BigDecimal totalAmount = BigDecimal.ZERO;
 
-        cartItems.forEach(
-                cartItem ->{
-                        BigDecimal amount  = new BigDecimal(cartItem.getProduct().getPrice().intValue() * cartItem.getQuantity());
-                        totalAmount.add(amount);
-                }
-        );
+        for (CartItem cartItem : cartItems) {
+            BigDecimal amount = cartItem.getProduct().getPrice()
+                    .multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+
+            totalAmount = totalAmount.add(amount);
+        }
 
         Order order = new Order();
         order.setCustomer(customer);
@@ -71,9 +71,14 @@ public class OrderService {
         paymentService.save(order,paymentType);
         cartService.clear(customer);
 
+        cartItems.forEach(cartItem -> {
+
+            Product product = new Product(cartItem.getProduct().getId() );
+            productService.updateStock(product,cartItem.getQuantity());
+        });
+
         System.out.println("Sipariş ve ödeme işlemi başarıyla yapıldı.");
 
-        productService.updateStock(new Product(),4);
         return order;
     }
 }

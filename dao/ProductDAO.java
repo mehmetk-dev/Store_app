@@ -7,7 +7,6 @@ import model.Category;
 import model.Product;
 
 import java.sql.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +62,23 @@ public class ProductDAO implements BaseDAO<Product>{
 
     @Override
     public Product findById(long id) {
-        return null;
+
+        Product product = null;
+        try(Connection connection = DBConnection.getConnection();
+        PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_FIND_BY_ID)){
+            pr.setLong(1,id);
+            ResultSet rs = pr.executeQuery();
+
+            while (rs.next()){
+                product = new Product(rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getBigDecimal("price"),
+                        rs.getInt("stock"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return product;
     }
 
     @Override
@@ -173,5 +188,20 @@ public class ProductDAO implements BaseDAO<Product>{
             throw new RuntimeException(e);
         }
         return product;
+    }
+
+    public void  updateStock(long id, int newStock) {
+
+        Product product = null;
+
+        try(Connection connection = DBConnection.getConnection();
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_UPDATE_STOCK)){
+            pr.setInt(1,newStock);
+            pr.setLong(2,id);
+
+            pr.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
