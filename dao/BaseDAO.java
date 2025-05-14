@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BaseDAO<T> {
 
-    void save(T t);
+    long save(T t);
 
     T findById(long id);
 

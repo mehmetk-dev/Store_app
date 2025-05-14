@@ -4,18 +4,17 @@ import connection.DBConnection;
 import dao.constants.SqlScriptConstants;
 import model.Order;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.List;
 
 public class OrderDAO implements BaseDAO<Order>{
 
-    public void save(Order order) {
+    public long save(Order order) {
+
+        long generatedId = 0;
 
         try(Connection connection = DBConnection.getConnection();
-            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.ORDER_SAVE)) {
+            PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.ORDER_SAVE,Statement.RETURN_GENERATED_KEYS)) {
 
             pr.setLong(1,order.getCustomer().getId());
             pr.setTimestamp(2, Timestamp.valueOf(order.getOrderDate()));
@@ -23,9 +22,16 @@ public class OrderDAO implements BaseDAO<Order>{
 
             pr.executeUpdate();
 
+            ResultSet rs = pr.getGeneratedKeys();
+
+            if (rs.next()){
+                generatedId = rs.getLong(1);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return generatedId;
     }
 
     @Override

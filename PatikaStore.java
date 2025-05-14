@@ -353,7 +353,7 @@ public class PatikaStore {
         }
     }
 
-    private static void createOrder() {
+    private static void createOrder() throws StoreException {
 
         System.out.print("Ödeme yönteminizi giriniz: CREDIT_CARD, DEBIT_CARD, PAYPAL, BANK_TRANSFER");
         String paymentMethod = scanner.nextLine();

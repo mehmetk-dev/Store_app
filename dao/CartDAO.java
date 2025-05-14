@@ -12,8 +12,8 @@ import java.util.List;
 
 public class CartDAO implements BaseDAO<Cart> {
     @Override
-    public void save(Cart cart) {
-
+    public long save(Cart cart) {
+        return 0;
     }
 
     @Override

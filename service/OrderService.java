@@ -1,13 +1,14 @@
 package service;
 
 import dao.OrderDAO;
-import model.CartItem;
-import model.Customer;
-import model.Order;
-import model.Product;
+import exceptions.ExceptionMessagesConstants;
+import exceptions.StoreException;
+import model.*;
 import model.enums.PaymentType;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderService {
@@ -16,17 +17,25 @@ public class OrderService {
     private CartItemService cartItemService;
     private PaymentService paymentService;
     private CartService cartService;
+    private OrderItemService orderItemService;
+    private ProductService productService;
 
     public OrderService() {
         this.orderDAO = new OrderDAO();
         this.cartItemService = new CartItemService();
         this.paymentService = new PaymentService();
         this.cartService = new CartService();
+        this.orderItemService = new OrderItemService();
+        this.productService = new ProductService();
     }
 
-    public Order save(Customer customer, PaymentType paymentType){
+    public Order save(Customer customer, PaymentType paymentType) throws StoreException {
 
         List<CartItem> cartItems =  cartItemService.getByCustomer(customer);
+
+        if (cartItems.isEmpty()){
+            throw new StoreException(ExceptionMessagesConstants.ORDER_ITEM_IS_EMPTY);
+        }
 
         BigDecimal totalAmount = BigDecimal.ZERO;
 
@@ -37,21 +46,34 @@ public class OrderService {
                 }
         );
 
-        List<Product> productList = cartItems.stream()
-                .map(CartItem::getProduct).toList();
-
-
         Order order = new Order();
-        order.setProducts(productList);
         order.setCustomer(customer);
         order.setTotalAmount(totalAmount);
+        order.setOrderDate(LocalDateTime.now());
 
-        orderDAO.save(order);
+        long orderId = orderDAO.save(order);
+        order.setId(orderId);
+
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        cartItems.forEach(cartItem -> {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(new Order(orderId));
+            orderItem.setProduct(new Product(cartItem.getProduct().getId()));
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice(cartItem.getProduct().getPrice());
+
+            orderItems.add(orderItem);
+        });
+
+        orderItemService.save(orderItems);
+
         paymentService.save(order,paymentType);
         cartService.clear(customer);
 
         System.out.println("Sipariş ve ödeme işlemi başarıyla yapıldı.");
 
+        productService.updateStock(new Product(),4);
         return order;
     }
 }

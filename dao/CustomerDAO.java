@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CustomerDAO implements BaseDAO<Customer>{
 
-    public void save(Customer customer){
+    public long save(Customer customer){
 
         try(Connection connection = DBConnection.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SqlScriptConstants.CUSTOMER_SAVE)) {
@@ -24,6 +24,7 @@ public class CustomerDAO implements BaseDAO<Customer>{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return 0;
     }
 
     public Customer findById(long id){

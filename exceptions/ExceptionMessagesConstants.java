@@ -2,8 +2,6 @@ package exceptions;
 
 public class ExceptionMessagesConstants {
 
-
-
     private ExceptionMessagesConstants() {
     }
 
@@ -28,4 +26,7 @@ public class ExceptionMessagesConstants {
     public static final String WRONG_PAGE_NUMBER = "Yanlış sayfa sayısı girdiniz.";
 
     public static final String PRODUCT_STOCK_IS_NOT_VALID = "İstenilen ürünün stok sayısı yetersiz.";
+
+    public static final String ORDER_ITEM_IS_EMPTY = "Sepetiniz boş.";
+
 }

@@ -148,4 +148,9 @@ public class SqlScriptConstants {
     public static final String CART_ITEM_DELETE = """
             DELETE FROM cart_items WHERE cart_id = ?;
             """;
+
+    public static final String ORDER_ITEMS_SAVE = """
+            INSERT INTO order_item(order_id,product_id,quantity,price)
+            VALUES(?,?,?,?);
+            """;
 }

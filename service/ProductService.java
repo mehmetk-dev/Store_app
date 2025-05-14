@@ -58,4 +58,7 @@ public class ProductService {
     public Product getByName(String productName) {
         return productDAO.findByName(productName);
     }
+
+    public void updateStock(Product product, int stock) {
+    }
 }

@@ -41,10 +41,10 @@ public class ProductDAO implements BaseDAO<Product>{
 
 
     @Override
-    public void save(Product product) {
+    public long save(Product product) {
 
         try(Connection connection = DBConnection.getConnection();
-        PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_SAVE)){
+        PreparedStatement pr = connection.prepareStatement(SqlScriptConstants.PRODUCT_SAVE,Statement.RETURN_GENERATED_KEYS)){
 
             pr.setString(1,product.getName());
             pr.setBigDecimal(2,product.getPrice());
@@ -58,6 +58,7 @@ public class ProductDAO implements BaseDAO<Product>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return 0;
     }
 
     @Override

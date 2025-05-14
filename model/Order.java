@@ -9,9 +9,13 @@ public class Order extends BaseModel {
     private Customer customer;
     private BigDecimal totalAmount;
     private LocalDateTime orderDate;
-    private List<Product> products;
+    private List<OrderItem> orderItems;
 
     public Order() {
+    }
+
+    public Order(long id) {
+        this.setId(id);
     }
 
     public Order(Customer customer) {
@@ -43,11 +47,11 @@ public class Order extends BaseModel {
         this.orderDate = orderDate;
     }
 
-    public List<Product> getProducts() {
-        return products;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setProducts(List<Product> products) {
-        this.products = products;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
